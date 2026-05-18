@@ -1,0 +1,30 @@
+Phần 1 – Phân tích logic
+
+Nguyên nhân client nhận về:
+
+[Movie@3a1b2c3d, Movie@4f2e1a0b]
+
+thay vì JSON là do đoạn code:
+
+return movies.toString();
+Giải thích
+movies là một List<Movie>.
+Khi gọi toString() trên List, Java sẽ gọi tiếp toString() của từng object Movie.
+Nhưng class Movie không override phương thức toString().
+Vì vậy Java sử dụng toString() mặc định của class Object, kết quả có dạng:
+TênClass@MãHash
+
+Ví dụ:
+
+Movie@3a1b2c3d
+Nguyên nhân gốc rễ
+
+API đang trả về:
+
+String
+
+thay vì trả về:
+
+List<Movie>
+
+Do đó Spring Boot không thể dùng Jackson để tự động chuyển object Java thành JSON.
